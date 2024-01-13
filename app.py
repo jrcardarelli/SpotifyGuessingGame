@@ -10,6 +10,15 @@ from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 
 import os
 from dotenv import load_dotenv
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+db = SQLAlchemy(model_class=Base)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,6 +27,35 @@ redirectUri = 'http://localhost:5000'
 access_token = ''
 
 app = Flask(__name__)
+
+# Replace these variables with your AWS RDS connection details
+DB_USER = os.environ.get('DB_USER')
+DB_PASSWORD = os.environ.get('DB_PASSWORD')
+DB_HOST = os.environ.get('DB_HOST')
+DB_PORT = os.environ.get('DB_PORT')
+DB_NAME = os.environ.get('DB_NAME')
+
+# Configure SQLAlchemy to use PostgreSQL
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+
+# db = SQLAlchemy(app)
+
+
+# Models
+class Score(db.Model):
+    id = db.Column(db.String(64), primary_key=True)
+    high_score = db.Column(db.Integer, unique=False, nullable=False)
+
+    def __repr__(self):
+        return f"Id: {self.id}, Score: {self.high_score}"
+
+
+# Create tables only if they do not exist
+with app.app_context():
+    db.create_all()
 
 
 @app.route('/')
@@ -131,6 +169,31 @@ def get_new_image():
         result = track['album']['images'][0]['url']
 
     return jsonify({'new_image_url': result})
+
+
+@app.route('/new_score/<int:score>')
+def new_score(score):
+    url = "https://api.spotify.com/v1/me"
+    headers = {
+        "Authorization": "Bearer " + access_token,
+    }
+
+    response = requests.get(url, headers=headers)
+    json_data_stuff = response.json()
+    row = Score.query.filter_by(id=json_parsing.get_user_id(json_data_stuff)).first()
+    if not row:
+        score_obj2 = Score(
+            id=json_parsing.get_user_id(json_data_stuff),
+            high_score=score
+        )
+        db.session.add(score_obj2)
+        db.session.commit()
+    else:
+        if row.high_score < score:
+            row.high_score = score
+            db.session.commit()
+
+    return "200"
 
 
 if __name__ == '__main__':

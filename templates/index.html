@@ -28,6 +28,7 @@
         <video id="media" controls autoplay>
             <source id="songPreview" src="" type="audio/mpeg">
         </video>
+        <button onclick="testScore()">add score</button>
     </div>
 
     <script>
@@ -48,6 +49,10 @@
                     document.getElementById('testData').innerText = data.random_songs;
                     document.getElementById('songPreview').src = data.preview0
                 })
+        }
+
+        function testScore() {
+            fetch('/new_score/3')
         }
     </script>
 

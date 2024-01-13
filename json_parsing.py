@@ -21,3 +21,6 @@ def collect_recent_tracks(json_data):
         "names": song_names,
         "previews": song_previews,
     }
+
+def get_user_id(json_data):
+    return json_data.get('id')
