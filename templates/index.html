@@ -19,9 +19,15 @@
     <div>
         <h3>Welcome to Game!</h3>
         <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
+        <a href='/test'>
+            <button type="button">Sign In</button>
+        </a>
         <button onclick="changeImage()">next</button>
         <button onclick="testUser()">test</button>
         <h3 id="testData"></h3>
+        <video id="media" controls autoplay>
+            <source id="songPreview" src="" type="audio/mpeg">
+        </video>
     </div>
 
     <script>
@@ -39,7 +45,8 @@
             fetch('/test_user_data')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('testData').innerText = JSON.stringify(data.test_data, null, 2);
+                    document.getElementById('testData').innerText = data.random_songs;
+                    document.getElementById('songPreview').src = data.preview0
                 })
         }
     </script>

@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, jsonify
 import spotipy
 import Authorization
+import json_parsing
 from localStoragePy import localStoragePy
 import urllib.parse as urlparse
 import requests
@@ -20,8 +21,7 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():  # put application's code here'
-
+def hello_world():  # put application's code here
     code = request.args.get('code')
 
     localStorage = localStoragePy('spotify.game', 'json')
@@ -62,7 +62,7 @@ def test():
     hashed = Authorization.hash_verifier(codeVerifier)
     codeChallenge = Authorization.base64encode(hashed)
 
-    scope = 'user-read-private user-top-read'
+    scope = 'user-read-recently-played'
     authUrl = 'https://accounts.spotify.com/authorize'
 
     localStorage = localStoragePy('spotify.game', 'json')
@@ -89,7 +89,7 @@ def test():
 @app.route('/test_user_data')
 def test_user_data():
     if access_token != '':
-        url = "https://api.spotify.com/v1/me/top/artists"
+        url = "https://api.spotify.com/v1/me/player/recently-played?limit=50"
         headers = {
             "Authorization": "Bearer " + access_token,
         }
@@ -98,8 +98,11 @@ def test_user_data():
         if response.status_code == 200:
             try:
                 json_response = response.json()
-                print("Response:", json_response)
-                return jsonify({'test_data': json_response})
+
+                return {
+                    "random_songs": json_parsing.collect_recent_tracks(json_response)["names"],
+                    "preview0": json_parsing.collect_recent_tracks(json_response)["previews"][0],
+                }
             except ValueError as e:
                 print("Error decoding JSON:", e)
                 return jsonify({'error': 'Invalid JSON in response'})
