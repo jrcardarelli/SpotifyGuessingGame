@@ -10,7 +10,15 @@
         display: flex;
         flex-direction: column;
         align-items: center; /* Optional: Align items in the center horizontally */
-      }
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    #timeInput {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 
 </style>
 
@@ -18,22 +26,30 @@
 
     <div>
         <h3>Welcome to Game!</h3>
+        <p id="timerDisplay">Time Remaining: __</p>
         <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
         <a href='/test'>
             <button type="button">Sign In</button>
         </a>
         <button onclick="changeImage()">next</button>
         <button onclick="testUser()">Start Game</button>
-        <h3 id="testData"></h3>
         <audio id="audioPreview" controls autoplay src=""></audio>
         <button onclick="nextSong()">Next Song</button>
         <button onclick="testScore()">add score</button>
+        <label for="timeInputMinutes"></label>
+        <div id="timeInput">
+            <input type="number" id="timeInputMinutes"></input>
+            :
+            <label for="timeInputSeconds"></label>
+            <input type="number" id="timeInputSeconds"></input>
+        </div>
     </div>
 
     <script>
         let signedIn = false;
         let song_previews;
         let index = 0;
+        let numLeft = 10;
 
         function changeImage() {
             // Make an AJAX request to Flask to get a new image URL
@@ -46,10 +62,10 @@
         }
 
         function testUser() {
+            startTimer()
             fetch('/test_user_data')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('testData').innerText = data.random_songs;
 
                     song_previews = data.previews
 
@@ -75,6 +91,38 @@
                     audioElement.load();
                     audioElement.play();
             }
+
+            let minutes = document.getElementById("timeInputMinutes").value;
+            let seconds = document.getElementById("timeInputSeconds").value;
+
+
+        }
+
+        // Initialize variables
+        let timerInterval;
+        let seconds = 0;
+
+        // Function to update the timer display
+        function updateTimerDisplay() {
+            document.getElementById("timerDisplay").textContent = "Timer: " + seconds + " seconds";
+        }
+
+        // Function to start the timer
+        function startTimer() {
+            // Clear any existing interval
+            clearInterval(timerInterval);
+
+            // Reset seconds
+            seconds = 0;
+
+            // Update the display immediately
+            updateTimerDisplay();
+
+            // Start the timer interval (update every second)
+            timerInterval = setInterval(function() {
+                seconds++;
+                updateTimerDisplay();
+            }, 1000);
         }
     </script>
 </body>
