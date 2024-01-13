@@ -23,15 +23,18 @@
             <button type="button">Sign In</button>
         </a>
         <button onclick="changeImage()">next</button>
-        <button onclick="testUser()">test</button>
+        <button onclick="testUser()">Start Game</button>
         <h3 id="testData"></h3>
-        <video id="media" controls autoplay>
-            <source id="songPreview" src="" type="audio/mpeg">
-        </video>
+        <audio id="audioPreview" controls autoplay src=""></audio>
+        <button onclick="nextSong()">Next Song</button>
         <button onclick="testScore()">add score</button>
     </div>
 
     <script>
+        let signedIn = false;
+        let song_previews;
+        let index = 0;
+
         function changeImage() {
             // Make an AJAX request to Flask to get a new image URL
             fetch('/get_new_image')
@@ -47,15 +50,33 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('testData').innerText = data.random_songs;
-                    document.getElementById('songPreview').src = data.preview0
+
+                    song_previews = data.previews
+
+                    const audioElement = document.getElementById('audioPreview');
+                    console.log(data.previews[0])
+                    audioElement.src = data.previews[0]
+                    audioElement.load();
+                    audioElement.play();
                 })
         }
 
         function testScore() {
             fetch('/new_score/3')
         }
-    </script>
 
+        function nextSong() {
+            index += 1;
+
+            if (index < 10) {
+                const audioElement = document.getElementById('audioPreview');
+                    console.log(song_previews[index])
+                    audioElement.src = song_previews[index]
+                    audioElement.load();
+                    audioElement.play();
+            }
+        }
+    </script>
 </body>
 </html>
 

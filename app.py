@@ -137,9 +137,11 @@ def test_user_data():
             try:
                 json_response = response.json()
 
+                collected_tracks = json_parsing.collect_recent_tracks(json_response)
+
                 return {
-                    "random_songs": json_parsing.collect_recent_tracks(json_response)["names"],
-                    "preview0": json_parsing.collect_recent_tracks(json_response)["previews"][0],
+                    "random_songs": collected_tracks["names"],
+                    "previews": collected_tracks["previews"],
                 }
             except ValueError as e:
                 print("Error decoding JSON:", e)
@@ -169,6 +171,13 @@ def get_new_image():
         result = track['album']['images'][0]['url']
 
     return jsonify({'new_image_url': result})
+
+@app.route('/check_signed_in')
+def check_signed_in():
+    if access_token != '':
+        return {"signedIn": True}
+    else:
+        return {"signedIn": False}
 
 
 @app.route('/new_score/<int:score>')
