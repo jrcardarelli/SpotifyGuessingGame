@@ -31,9 +31,8 @@
     </div>
 
     <script>
-        let signedIn = false;
         let song_previews;
-        let song_durations;
+        let song_artists;
         let song_images;
         let song_dates;
         let index = 0;
@@ -55,7 +54,7 @@
                     document.getElementById('testData').innerText = data.random_songs;
 
                     song_previews = data.previews;
-                    song_durations = data.durations;
+                    song_artists = data.artists;
                     song_images = data.covers;
                     song_dates = data.dates;
 
