@@ -34,7 +34,8 @@ def collect_recent_tracks(json_data):
 
     return {
         "names": random_songs,
-        "previews": result_previews
+        "previews": result_previews,
+        "durations": result_duration,
     }
 
 

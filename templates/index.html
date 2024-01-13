@@ -48,6 +48,7 @@
     <script>
         let signedIn = false;
         let song_previews;
+        let song_durations;
         let index = 0;
         let numLeft = 10;
 
@@ -68,6 +69,7 @@
                 .then(data => {
 
                     song_previews = data.previews
+                    song_durations = data.durations
 
                     const audioElement = document.getElementById('audioPreview');
                     console.log(data.previews[0])
