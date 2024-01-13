@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+</head>
+
+<style>
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Optional: Align items in the center horizontally */
+      }
+
+</style>
+
+<body>
+
+    <div>
+        <h3>Welcome to Game!</h3>
+        <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
+        <button onclick="changeImage()">next</button>
+    </div>
+
+    <script>
+        function changeImage() {
+            // Make an AJAX request to Flask to get a new image URL
+            fetch('/get_new_image')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the image source with the new URL
+                    document.getElementById('gameImage').src = data.new_image_url;
+                });
+        }
+    </script>
+
+</body>
+</html>
+
+
