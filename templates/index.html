@@ -25,7 +25,7 @@
 <body>
 
     <div>
-        <h3>Welcome to Game!</h3>
+        <h1>Welcome to Game!</h1>
         <p id="timerDisplay">Time Remaining: __</p>
         <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
         <a href='/test'>
@@ -33,24 +33,37 @@
         </a>
         <button onclick="changeImage()">next</button>
         <button onclick="testUser()">Start Game</button>
+        <h3 id="feedback"></h3>
+        <h3 id="question"></h3>
         <audio id="audioPreview" controls autoplay src=""></audio>
         <button onclick="nextSong()">Next Song</button>
         <button onclick="testScore()">add score</button>
-        <label for="timeInputMinutes"></label>
-        <div id="timeInput">
-            <input type="number" id="timeInputMinutes"></input>
-            :
-            <label for="timeInputSeconds"></label>
-            <input type="number" id="timeInputSeconds"></input>
-        </div>
+        <label for="allInput"></label>
+        <input id="allInput" type="text"></input>
+<!--        <div id="timeInput">-->
+<!--&lt;!&ndash;            <input type="number" id="timeInputMinutes"></input>&ndash;&gt;-->
+<!--&lt;!&ndash;            :&ndash;&gt;-->
+<!--&lt;!&ndash;            <label for="timeInputSeconds"></label>&ndash;&gt;-->
+<!--&lt;!&ndash;            <input type="number" id="timeInputSeconds"></input>&ndash;&gt;-->
+<!--        </div>-->
     </div>
 
     <script>
+
+        function getRandomInt(min, max) {
+          min = Math.ceil(min);
+          max = Math.floor(max);
+          return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+        }
+
         let signedIn = false;
         let song_previews;
         let song_durations;
         let index = 0;
-        let numLeft = 10;
+        // Initialize variables
+        let timerInterval;
+        let seconds = 0;
+        let questionType = getRandomInt(0, 3);
 
         function changeImage() {
             // Make an AJAX request to Flask to get a new image URL
@@ -83,26 +96,60 @@
             fetch('/new_score/3')
         }
 
-        function nextSong() {
-            index += 1;
+        function correctAnswer() {
+            if(questionType === 0) {
 
-            if (index < 10) {
-                const audioElement = document.getElementById('audioPreview');
+            } else if(questionType === 1) {
+
+            } else {
+
+            }
+
+            return true;
+        }
+
+        function nextSong() {
+
+            if(correctAnswer()) {
+                document.getElementById("feedback").innerText = "Success!";
+
+                console.log("Success!")
+                document.getElementById("feedback").style.color = 'green';
+
+
+                index += 1;
+
+                if (index < 10) {
+                    const audioElement = document.getElementById('audioPreview');
                     console.log(song_previews[index])
                     audioElement.src = song_previews[index]
                     audioElement.load();
                     audioElement.play();
+                } else {
+                    let string = '/new_score/' + seconds
+                    fetch('/new_score/')
+                }
+
+            } else {
+                document.getElementById("feedback").innerText = "Incorrect, please try again.";
+                document.getElementById("feedback").style.color = 'red';
             }
 
-            let minutes = document.getElementById("timeInputMinutes").value;
-            let seconds = document.getElementById("timeInputSeconds").value;
+            questionType = getRandomInt(0, 3);
+            document.getElementById("allInput").innerText = '';
+
+            if(questionType === 0) {
+                document.getElementById("question").innerText = 'Guess the Artist';
+            } else if(questionType === 1) {
+                document.getElementById("question").innerText = 'Guess the Song Title';
+            } else {
+                document.getElementById("question").innerText = 'Guess the Year This Song was Released';
+            }
 
 
         }
 
-        // Initialize variables
-        let timerInterval;
-        let seconds = 0;
+
 
         // Function to update the timer display
         function updateTimerDisplay() {
