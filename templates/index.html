@@ -34,6 +34,8 @@
         let signedIn = false;
         let song_previews;
         let song_durations;
+        let song_images;
+        let song_dates;
         let index = 0;
 
         function changeImage() {
@@ -52,8 +54,10 @@
                 .then(data => {
                     document.getElementById('testData').innerText = data.random_songs;
 
-                    song_previews = data.previews
-                    song_durations = data.durations
+                    song_previews = data.previews;
+                    song_durations = data.durations;
+                    song_images = data.covers;
+                    song_dates = data.dates;
 
                     const audioElement = document.getElementById('audioPreview');
                     console.log(data.previews[0])
