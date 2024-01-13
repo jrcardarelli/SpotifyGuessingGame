@@ -3,10 +3,8 @@ import random
 
 def collect_recent_tracks(json_data):
     all_recent_song_names = [item.get('track', {}).get('name') for item in json_data.get('items', [])]
-    # all_recent_song_names = list(set(all_recent_song_names))
-
     all_recent_song_previews = [item.get('track', {}).get('preview_url') for item in json_data.get('items', [])]
-    # all_recent_song_previews = list(set(all_recent_song_previews))
+    all_recent_song_duration = [item.get('track', {}).get('duration_ms') for item in json_data.get('items', [])]
 
     res = {}
     for key in all_recent_song_names:
@@ -15,20 +13,30 @@ def collect_recent_tracks(json_data):
             all_recent_song_previews.remove(value)
             break
 
+    res2 = {}
+    for key in all_recent_song_names:
+        for value in all_recent_song_duration:
+            res2[key] = value
+            all_recent_song_duration.remove(value)
+            break
 
-    random_songs = random.sample(range(0, len(all_recent_song_names) - 1), 10)
+    all_recent_song_names = list(set(all_recent_song_names))
 
-    song_names = []
-    song_previews = []
+    random_songs = random.sample(all_recent_song_names, 10)
 
-    for i in random_songs:
-        song_names.append(all_recent_song_names[i])
-        song_previews.append(all_recent_song_previews[i])
+    result_previews = []
+    for song in random_songs:
+        result_previews.append(res.get(song))
+
+    result_duration = []
+    for song in random_songs:
+        result_duration.append(res2.get(song))
 
     return {
-        "names": song_names,
-        "previews": song_previews,
+        "names": random_songs,
+        "previews": result_previews
     }
+
 
 def get_user_id(json_data):
     return json_data.get('id')
