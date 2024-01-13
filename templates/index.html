@@ -33,9 +33,10 @@
         </a>
         <button onclick="changeImage()">next</button>
         <button onclick="testUser()">Start Game</button>
+
         <h3 id="feedback"></h3>
         <h3 id="question"></h3>
-        <audio id="audioPreview" controls autoplay src=""></audio>
+        <audio id="audioPreview" hidden src=""></audio>
         <button onclick="nextSong()">Next Song</button>
         <button onclick="testScore()">add score</button>
         <label for="allInput"></label>
@@ -56,9 +57,10 @@
           return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
         }
 
-        let signedIn = false;
         let song_previews;
-        let song_durations;
+        let song_artists;
+        let song_images;
+        let song_dates;
         let index = 0;
         // Initialize variables
         let timerInterval;
@@ -81,8 +83,10 @@
                 .then(response => response.json())
                 .then(data => {
 
-                    song_previews = data.previews
-                    song_durations = data.durations
+                    song_previews = data.previews;
+                    song_artists = data.artists;
+                    song_images = data.covers;
+                    song_dates = data.dates;
 
                     const audioElement = document.getElementById('audioPreview');
                     console.log(data.previews[0])
