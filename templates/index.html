@@ -143,7 +143,7 @@
             if(correctAnswer()) {
                 document.getElementById("feedback").innerText = "Success!";
 
-                console.log("Success!")
+                console.log("Success!");
                 document.getElementById("feedback").style.color = 'green';
 
                 questionType = getRandomInt(0, 3);
@@ -154,13 +154,26 @@
 
                 if (index < 10) {
                     const audioElement = document.getElementById('audioPreview');
-                    console.log(song_previews[index])
-                    audioElement.src = song_previews[index]
+                    console.log(song_previews[index]);
+                    audioElement.src = song_previews[index];
                     audioElement.load();
                     audioElement.play();
                 } else {
-                    let string = '/new_score/' + seconds
-                    fetch('/new_score/')
+                    console.log('over');
+                    fetch('/get_high_score')
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('in here');
+                            let high_score = data.high_score;
+                            console.log(high_score);
+                            let string = '/new_score/' + seconds;
+                            if(high_score > seconds) {
+                                console.log('new high score!');
+                            }
+                            fetch(string)
+                        });
+
+
                 }
 
             } else {
