@@ -33,6 +33,7 @@
     <script>
         let signedIn = false;
         let song_previews;
+        let song_durations;
         let index = 0;
 
         function changeImage() {
@@ -52,6 +53,7 @@
                     document.getElementById('testData').innerText = data.random_songs;
 
                     song_previews = data.previews
+                    song_durations = data.durations
 
                     const audioElement = document.getElementById('audioPreview');
                     console.log(data.previews[0])

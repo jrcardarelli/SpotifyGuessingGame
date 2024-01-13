@@ -142,6 +142,7 @@ def test_user_data():
                 return {
                     "random_songs": collected_tracks["names"],
                     "previews": collected_tracks["previews"],
+                    "durations": collected_tracks["durations"],
                 }
             except ValueError as e:
                 print("Error decoding JSON:", e)
