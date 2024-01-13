@@ -201,11 +201,31 @@ def new_score(score):
         db.session.add(score_obj2)
         db.session.commit()
     else:
-        if row.high_score < score:
+
+        if row.high_score > score:
+            print("updating")
+            print(score)
             row.high_score = score
             db.session.commit()
 
     return "200"
+
+@app.route('/get_high_score')
+def get_high_score():
+    url = "https://api.spotify.com/v1/me"
+    headers = {
+        "Authorization": "Bearer " + access_token,
+    }
+
+    response = requests.get(url, headers=headers)
+    json_data_stuff = response.json()
+    row = Score.query.filter_by(id=json_parsing.get_user_id(json_data_stuff)).first()
+
+    if not row:
+        print("returning nothing")
+        return {"high_score": -1}
+    else:
+        return {"high_score": row.high_score}
 
 
 if __name__ == '__main__':
