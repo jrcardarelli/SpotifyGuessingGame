@@ -142,7 +142,7 @@ def test_user_data():
                 return {
                     "random_songs": collected_tracks["names"],
                     "previews": collected_tracks["previews"],
-                    "durations": collected_tracks["durations"],
+                    "artists": collected_tracks["artists"],
                     "covers": collected_tracks["covers"],
                     "dates": collected_tracks["dates"],
                 }
