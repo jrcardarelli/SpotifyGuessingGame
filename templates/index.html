@@ -20,6 +20,8 @@
         <h3>Welcome to Game!</h3>
         <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
         <button onclick="changeImage()">next</button>
+        <button onclick="testUser()">test</button>
+        <h3 id="testData"></h3>
     </div>
 
     <script>
@@ -31,6 +33,14 @@
                     // Update the image source with the new URL
                     document.getElementById('gameImage').src = data.new_image_url;
                 });
+        }
+
+        function testUser() {
+            fetch('/test_user_data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('testData').innerText = JSON.stringify(data.test_data, null, 2);
+                })
         }
     </script>
 
