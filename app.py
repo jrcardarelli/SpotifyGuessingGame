@@ -5,7 +5,7 @@ from localStoragePy import localStoragePy
 import urllib.parse as urlparse
 import requests
 from urllib.parse import urlencode
-from spotipy.oauth2 import SpotifyClientCredentials
+from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 
 import os
 from dotenv import load_dotenv
@@ -14,12 +14,14 @@ from dotenv import load_dotenv
 load_dotenv()
 clientId = os.environ.get('SPOTIPY_CLIENT_ID')
 redirectUri = 'http://localhost:5000'
+access_token = ''
 
 app = Flask(__name__)
 
 
-@app.route('/callback')
-def callback():
+@app.route('/')
+def hello_world():  # put application's code here'
+
     code = request.args.get('code')
 
     localStorage = localStoragePy('spotify.game', 'json')
@@ -40,22 +42,16 @@ def callback():
 
     response = requests.post(token_endpoint, data=payload, headers=headers)
 
-    access_token = None
-
     if response.status_code == 200:
         # Assuming the response is in JSON format
         response_data = response.json()
+        global access_token
         access_token = response_data.get('access_token')
 
         # Store the access token in local storage or perform further actions
         localStorage.setItem('access_token', access_token)
     else:
         print("Error:", response.text)
-
-    return access_token
-
-@app.route('/')
-def hello_world():  # put application's code here'
 
     return render_template('index.html')
 
@@ -66,7 +62,7 @@ def test():
     hashed = Authorization.hash_verifier(codeVerifier)
     codeChallenge = Authorization.base64encode(hashed)
 
-    scope = 'user-read-private user-read-email user-top-read'
+    scope = 'user-read-private user-top-read'
     authUrl = 'https://accounts.spotify.com/authorize'
 
     localStorage = localStoragePy('spotify.game', 'json')
@@ -86,13 +82,34 @@ def test():
     query.update(params)
 
     url_parts[4] = urlencode(query)
-    # redirect(location=urlparse.urlunparse(url_parts))
 
     return redirect(location=urlparse.urlunparse(url_parts))
 
-    # return(urlparse.urlunparse(url_parts))
 
-    # dummy_user = spotipy.Spotify.user()
+@app.route('/test_user_data')
+def test_user_data():
+    if access_token != '':
+        url = "https://api.spotify.com/v1/me/top/artists"
+        headers = {
+            "Authorization": "Bearer " + access_token,
+        }
+
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            try:
+                json_response = response.json()
+                print("Response:", json_response)
+                return jsonify({'test_data': json_response})
+            except ValueError as e:
+                print("Error decoding JSON:", e)
+                return jsonify({'error': 'Invalid JSON in response'})
+        else:
+            print("Error:", response.text)
+            return jsonify({'error': 'Request failed'})
+
+    else:
+        print("UH OH THAT'S BAD")
+        return 0
 
 
 @app.route('/get_new_image')
@@ -100,8 +117,8 @@ def get_new_image():
     # You can replace this with logic to fetch a dynamic image URL
 
     lz_uri = 'spotify:artist:36QJpDe2go2KgaRleHCDTp'
-
     spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+
     results = spotify.artist_top_tracks(lz_uri)
     result = ""
     for track in results['tracks'][:10]:
