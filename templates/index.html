@@ -68,8 +68,10 @@
             <button class="button-74" role="button" type="button">Sign In</button>
         </a>
 
+
         <button class="button-74" role="button" onclick="changeImage()">next</button>
-        <button class="button-74" role="button" onclick="testUser()">Start Game</button>
+        <button class="button-74" role="button" onclick="startGame()">Start Game</button>
+
 
         <h3 id="feedback"></h3>
         <h3 id="question"></h3>
@@ -78,12 +80,6 @@
         <button class="button-74" role="button" onclick="testScore()">add score</button>
         <label for="allInput"></label>
         <input id="allInput" type="text"></input>
-<!--        <div id="timeInput">-->
-<!--&lt;!&ndash;            <input type="number" id="timeInputMinutes"></input>&ndash;&gt;-->
-<!--&lt;!&ndash;            :&ndash;&gt;-->
-<!--&lt;!&ndash;            <label for="timeInputSeconds"></label>&ndash;&gt;-->
-<!--&lt;!&ndash;            <input type="number" id="timeInputSeconds"></input>&ndash;&gt;-->
-<!--        </div>-->
     </div>
 
     <script>
@@ -98,6 +94,7 @@
         let song_artists;
         let song_images;
         let song_dates;
+        let song_names;
         let index = 0;
         // Initialize variables
         let timerInterval;
@@ -105,16 +102,10 @@
         let questionType = getRandomInt(0, 3);
 
         function changeImage() {
-            // Make an AJAX request to Flask to get a new image URL
-            fetch('/get_new_image')
-                .then(response => response.json())
-                .then(data => {
-                    // Update the image source with the new URL
-                    document.getElementById('gameImage').src = data.new_image_url;
-                });
+            document.getElementById('gameImage').src = song_images[index];
         }
 
-        function testUser() {
+        function startGame() {
             startTimer()
             fetch('/test_user_data')
                 .then(response => response.json())
@@ -123,30 +114,62 @@
                     song_previews = data.previews;
                     song_artists = data.artists;
                     song_images = data.covers;
+                    changeImage();
                     song_dates = data.dates;
+                    song_names = data.random_songs;
+
+                    console.log(song_dates);
+                    console.log(song_previews);
+                    console.log(song_artists);
+                    console.log(song_names);
 
                     const audioElement = document.getElementById('audioPreview');
-                    console.log(data.previews[0])
-                    audioElement.src = data.previews[0]
+                    audioElement.src = data.previews[0];
                     audioElement.load();
                     audioElement.play();
                 })
+            updateQuestion();
         }
 
         function testScore() {
             fetch('/new_score/3')
         }
 
-        function correctAnswer() {
+        function updateQuestion() {
             if(questionType === 0) {
-
+                document.getElementById("question").innerText = 'Guess the Artist';
             } else if(questionType === 1) {
-
+                document.getElementById("question").innerText = 'Guess the Song Title';
             } else {
+                document.getElementById("question").innerText = 'Guess the Year This Song was Released';
+            }
+        }
 
+        function removeNonAlphanumeric(inputString) {
+            return inputString.replace(/[^a-zA-Z0-9]/g, '');
+        }
+
+        function correctAnswer() {
+
+            if(questionType === 0) {
+                if(removeNonAlphanumeric(document.getElementById("allInput").value.toString().toLowerCase())  === removeNonAlphanumeric(song_artists[index].toString().toLowerCase())) {
+                    document.getElementById("allInput").value = "";
+                    return true;
+                }
+            } else if(questionType === 1) {
+                if(removeNonAlphanumeric(document.getElementById("allInput").value.toString().toLowerCase())  === removeNonAlphanumeric(song_names[index].toString().toLowerCase())) {
+                    document.getElementById("allInput").value = "";
+                    return true;
+                }
+            } else {
+                if(removeNonAlphanumeric(document.getElementById("allInput").value.toString().toLowerCase()) === removeNonAlphanumeric(song_dates[index].slice(0, 4).toString().toLowerCase())) {
+                    document.getElementById("allInput").value = "";
+                    return true;
+                }
             }
 
-            return true;
+            document.getElementById("allInput").value = "";
+            return false;
         }
 
         function nextSong() {
@@ -157,8 +180,12 @@
                 console.log("Success!");
                 document.getElementById("feedback").style.color = 'green';
 
+                questionType = getRandomInt(0, 3);
+                document.getElementById("allInput").innerText = '';
 
                 index += 1;
+                updateQuestion();
+                changeImage();
 
                 if (index < 10) {
                     const audioElement = document.getElementById('audioPreview');
@@ -188,19 +215,6 @@
                 document.getElementById("feedback").innerText = "Incorrect, please try again.";
                 document.getElementById("feedback").style.color = 'red';
             }
-
-            questionType = getRandomInt(0, 3);
-            document.getElementById("allInput").innerText = '';
-
-            if(questionType === 0) {
-                document.getElementById("question").innerText = 'Guess the Artist';
-            } else if(questionType === 1) {
-                document.getElementById("question").innerText = 'Guess the Song Title';
-            } else {
-                document.getElementById("question").innerText = 'Guess the Year This Song was Released';
-            }
-
-
         }
 
 
