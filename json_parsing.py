@@ -5,7 +5,7 @@ def collect_recent_tracks(json_data):
     all_recent_song_names = [item.get('track', {}).get('name') for item in json_data.get('items', [])]
     all_recent_song_previews = [item.get('track', {}).get('preview_url') for item in json_data.get('items', [])]
     all_recent_song_artists = [item.get('track', {}).get('artists', [{}])[0].get('name') for item in json_data.get('items', [])]
-    all_recent_song_covers = [item.get('track', {}).get('album', {}).get('images', [{}])[2].get('url') for item in json_data.get('items', [])]
+    all_recent_song_covers = [item.get('track', {}).get('album', {}).get('images', [{}])[1].get('url') for item in json_data.get('items', [])]
     all_recent_song_date = [item.get('track', {}).get('album', {}).get('release_date') for item in json_data.get('items', [])]
 
     res = {}
