@@ -174,18 +174,20 @@
         </a>
     </div>
     <div id="box">
-        <h1 id="title">Welcome to Game!</h1>
-        <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
-        <button class="button-74" role="button" onclick="startGame()">Start Game</button>
-        <h3 id="feedback"></h3>
-        <h3 id="question"></h3>
-        <audio id="audioPreview" hidden src=""></audio>
-        <div id="input-box">
-            <label for="allInput"></label>
-            <input id="allInput" type="text">
-            <button class="button-74" role="button" onclick="nextSong()">Submit</button>
+        <div id="hide-show-container">
+            <h1 id="title">Welcome to Game!</h1>
+            <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
+            <button class="button-74" role="button" onclick="startGame()">Start Game</button>
+            <h3 id="feedback"></h3>
+            <h3 id="question"></h3>
+            <audio id="audioPreview" src=""></audio>
+            <div id="input-box">
+                <label for="allInput"></label>
+                <input id="allInput" type="text">
+                <button class="button-74" role="button" onclick="nextSong()">Submit</button>
+            </div>
+            <h2 id="timerDisplay">Time Elapsed: __</h2>
         </div>
-        <h2 id="timerDisplay">Time Elapsed: __</h2>
     </div>
     <table class="styled-table" id="leader_board"></table>
     </div>
@@ -195,6 +197,15 @@
         document.addEventListener('DOMContentLoaded', function () {
             fillLeaderBoard();
         });
+
+        //document.getElementById("hide-show-container").style.display = 'block';
+
+    //     document.getElementById(id).style.display = 'block';
+    // // hide the lorem ipsum text
+    // document.getElementById(text).style.display = 'none';
+
+        //document.getElementById("audioPreview").style.display = 'block';
+
         function getRandomInt(min, max) {
           min = Math.ceil(min);
           max = Math.floor(max);
