@@ -100,7 +100,7 @@
     }
 
     #spacer {
-        width: 78%;
+        width: 75%;
     }
 
     div {
@@ -153,6 +153,8 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+    height: 3.5rem;
+    width: 20rem;
 }
 
 .title{
@@ -263,7 +265,7 @@
         <h2>Guessify</h2>
         <div id="spacer"></div>
         <a href='/test'>
-            <button class="button-75" role="button" type="button">Sign in to Spotify to begin</button>
+            <input type="button" value="Sign in to Spotify to Begin" id="button-75" class="button-75"></input>
         </a>
     </div>
     <div id="surrounding2">
@@ -274,7 +276,6 @@
                     <h2 id="timerDisplay">Time Elapsed: __</h2>
                 </div>
                 <div id="answer-container">
-                    <h3 id="feedback"></h3>
                     <h3 id="question"></h3>
                     <audio id="audioPreview" hidden src=""></audio>
                     <div id="input-box">
@@ -282,7 +283,8 @@
                         <input id="allInput" type="text">
                         <button class="button-74" role="button" onclick="nextSong()">Submit</button>
                     </div>
-                    <button class="button-74" role="button" onclick="startGame()">Start Game</button>
+                    <h3 id="feedback"></h3>
+                    <button id="idk" class="button-74" role="button" onclick="startGame()">Start Game</button>
                 </div>
             </div>
         </div>
@@ -302,13 +304,15 @@
                 .then(data => {
                     if(data.signedIn) {
                         isSignedIn = true;
+                        update_user_name();
+                        document.getElementById("image-container").style.display = 'none';
+                        document.getElementById("input-box").style.display = 'none';
+                        document.getElementById("question").style.display = 'none';
                         document.getElementById("hide-show-container").style.display = '';
-
                     } else {
                         isSignedIn = false;
                         document.getElementById("hide-show-container").style.display = 'none';
                     }
-
                     console.log('signed in: ' + data.signedIn);
                 });
         });
@@ -357,7 +361,7 @@
         }
 
         function startGame() {
-            startTimer()
+            document.getElementById("idk").style.display = 'none';
             fetch('/test_user_data')
                 .then(response => response.json())
                 .then(data => {
@@ -374,10 +378,14 @@
                     console.log(song_names);
 
                     const audioElement = document.getElementById('audioPreview');
+                    document.getElementById("image-container").style.display = '';
+                    document.getElementById("input-box").style.display = '';
+                    document.getElementById("question").style.display = '';
                     audioElement.src = data.previews[0];
                     audioElement.load();
                     audioElement.play();
                 })
+            startTimer();
             updateQuestion();
         }
 
@@ -424,7 +432,7 @@
                 document.getElementById("feedback").innerText = "Success!";
 
                 console.log("Success!");
-                document.getElementById("feedback").style.color = 'green';
+                document.getElementById("feedback").style.color = "rgb(28, 203, 91)";
 
                 questionType = getRandomInt(0, 3);
                 document.getElementById("allInput").innerText = '';
@@ -486,6 +494,15 @@
                 seconds++;
                 updateTimerDisplay();
             }, 1000);
+        }
+
+        function update_user_name() {
+            fetch('/retrieve_user_name')
+                .then(response => response.json())
+                .then(data => {
+
+                    document.getElementById("button-75").value = data.display_name;
+                });
         }
     </script>
 </body>

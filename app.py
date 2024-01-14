@@ -159,22 +159,26 @@ def test_user_data():
         return 0
 
 
-@app.route('/get_new_image')
-def get_new_image():
-    # You can replace this with logic to fetch a dynamic image URL
+@app.route('/retrieve_user_name')
+def retrieve_user_name():
+    if access_token != '':
+        url = "https://api.spotify.com/v1/me"
+        headers = {
+            "Authorization": "Bearer " + access_token,
+        }
 
-    lz_uri = 'spotify:artist:36QJpDe2go2KgaRleHCDTp'
-    spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials())
+        response = requests.get(url, headers=headers)
+        json_data_stuff = response.json()
+        display_name = json_parsing.get_user_display_name(json_data_stuff)
 
-    results = spotify.artist_top_tracks(lz_uri)
-    result = ""
-    for track in results['tracks'][:10]:
-        print('track    : ' + track['name'])
-        print('audio    : ' + track['preview_url'])
-        print('cover art: ' + track['album']['images'][0]['url'])
-        result = track['album']['images'][0]['url']
+        return {
+            "display_name": display_name
+        }
+    else:
+        return {
+            "display_name": "Sign in to Spotify to begin"
+        }
 
-    return jsonify({'new_image_url': result})
 
 @app.route('/check_signed_in')
 def check_signed_in():
@@ -213,6 +217,7 @@ def new_score(score):
 
     return "200"
 
+
 @app.route('/get_high_score')
 def get_high_score():
     url = "https://api.spotify.com/v1/me"
@@ -243,6 +248,7 @@ def get_high_scores():
 
     # Use jsonify to convert the list of dictionaries to JSON
     return jsonify(scores)
+
 
 if __name__ == '__main__':
     app.run()
