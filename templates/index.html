@@ -94,7 +94,7 @@
             } else if(questionType === 1) {
                 document.getElementById("question").innerText = 'Guess the Song Title';
             } else {
-                document.getElementById("question").innerText = 'Guess the Year This Song was Released';
+                document.getElementById("question").innerText = 'Guess the Release Year (within 3 years)';
             }
         }
 
@@ -115,7 +115,7 @@
                     return true;
                 }
             } else {
-                if(removeNonAlphanumeric(document.getElementById("allInput").value.toString().toLowerCase()) === removeNonAlphanumeric(song_dates[index].slice(0, 4).toString().toLowerCase())) {
+                if(Math.abs(parseInt(removeNonAlphanumeric(document.getElementById("allInput").value.toString().toLowerCase())) - parseInt(removeNonAlphanumeric(song_dates[index].slice(0, 4).toString().toLowerCase()))) <= 3) {
                     document.getElementById("allInput").value = "";
                     return true;
                 }
