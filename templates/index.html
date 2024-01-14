@@ -56,8 +56,13 @@
         background-color: #282828;
         overflow: hidden;
         width: 100%;
-        justify-content: right;
+        justify-content: center;
         border-radius: 30px;
+        padding-right: -8px;
+    }
+
+    #spacer {
+        width: 78%;
     }
 
     div {
@@ -110,7 +115,6 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-    margin: 1rem;
 }
 
 .title{
@@ -151,6 +155,7 @@
         color: #dddddd;
         height: 36px;
         border: 4px solid #1ccc5b;
+        width: 80%;
         :focus{
             outline: none;
         }
@@ -183,30 +188,64 @@
         height: 100%;
     }
 
+    #image-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    #answer-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #hide-show-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 100%;
+        height: 100%;
+    }
+
+    #gameImage {
+        border-radius: 20px;
+    }
+
+    #profile-img {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 30px;
+    }
+
 </style>
 
 <body>
 <div id="surrounding">
     <div id="nav">
+        <h2>Guessify</h2>
+        <div id="spacer"></div>
         <a href='/test'>
-            <button class="button-75" role="button" type="button"><img src="http://thinkingstiff.com/images/matt.jpg" alt="">Sign in to Spotify to begin</button>
+            <button class="button-75" role="button" type="button">Sign in to Spotify to begin</button>
         </a>
     </div>
     <div id="surrounding2">
         <div id="box">
             <div id="hide-show-container">
-            <h2 id="timerDisplay">Time Elapsed: __</h2>
-            <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
-            <h3 id="feedback"></h3>
-            <h3 id="question"></h3>
-            <audio id="audioPreview" hidden src=""></audio>
-            <div id="input-box">
-                <label for="allInput"></label>
-                <input id="allInput" type="text">
-                <button class="button-74" role="button" onclick="nextSong()">Submit</button>
-            </div>
-            <button class="button-74" role="button" onclick="startGame()">Start Game</button>
-
+                <div id="image-container">
+                    <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art">
+                    <h2 id="timerDisplay">Time Elapsed: __</h2>
+                </div>
+                <div id="answer-container">
+                    <h3 id="feedback"></h3>
+                    <h3 id="question"></h3>
+                    <audio id="audioPreview" hidden src=""></audio>
+                    <div id="input-box">
+                        <label for="allInput"></label>
+                        <input id="allInput" type="text">
+                        <button class="button-74" role="button" onclick="nextSong()">Submit</button>
+                    </div>
+                    <button class="button-74" role="button" onclick="startGame()">Start Game</button>
+                </div>
             </div>
         </div>
         <div id="table-box">
