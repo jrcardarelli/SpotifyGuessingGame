@@ -6,6 +6,16 @@
 </head>
 
 <style>
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
     body {
         background-color: #121212;
         color: #fff;
@@ -137,7 +147,7 @@
             <input id="allInput" type="text">
             <button class="button-74" role="button" onclick="nextSong()">Submit</button>
         </div>
-        <table id="leader_board"></table>
+        <table class="styled-table" id="leader_board"></table>
         <h2 id="timerDisplay">Time Elapsed: __</h2>
     </div>
 
@@ -158,14 +168,14 @@
                 .then(response => response.json())
                 .then(items => {
                     console.log(items);
-                    // const table = document.getElementById("leader_board");
-                    // items.forEach( item => {
-                    //   let row = table.insertRow();
-                    //   let date = row.insertCell(0);
-                    //   date.innerHTML = item.date;
-                    //   let name = row.insertCell(1);
-                    //   name.innerHTML = item.name;
-                    // });
+                    const table = document.getElementById("leader_board");
+                    items.forEach( item => {
+                      let row = table.insertRow();
+                      let cell1 = row.insertCell(0);
+                      cell1.innerText = item.display_name;
+                      let cell2 = row.insertCell(1);
+                      cell2.innerText = item.high_score;
+                    });
                 });
 
 

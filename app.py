@@ -230,11 +230,19 @@ def get_high_score():
     else:
         return {"high_score": row.high_score}
 
+
 @app.route('/get_high_scores')
 def get_high_scores():
-    scores = db.session.execute(db.select(Score.display_name).order_by(Score.high_score)).all()
-    print(scores[0])
-    return "200"
+    # Fetch the results from the ResultProxy
+    result_proxy = db.session.execute(db.select(Score.display_name, Score.high_score).order_by(Score.high_score))
+
+    # Convert the results into a list of dictionaries
+    scores = [{'display_name': row[0], 'high_score': row[1]} for row in result_proxy.fetchall()]
+
+    print(scores)
+
+    # Use jsonify to convert the list of dictionaries to JSON
+    return jsonify(scores)
 
 if __name__ == '__main__':
     app.run()
