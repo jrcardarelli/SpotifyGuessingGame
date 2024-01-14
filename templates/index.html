@@ -63,13 +63,7 @@
         let questionType = getRandomInt(0, 3);
 
         function changeImage() {
-            // Make an AJAX request to Flask to get a new image URL
-            fetch('/get_new_image')
-                .then(response => response.json())
-                .then(data => {
-                    // Update the image source with the new URL
-                    document.getElementById('gameImage').src = data.new_image_url;
-                });
+            document.getElementById('gameImage').src = song_images[index];
         }
 
         function startGame() {
@@ -81,6 +75,7 @@
                     song_previews = data.previews;
                     song_artists = data.artists;
                     song_images = data.covers;
+                    changeImage();
                     song_dates = data.dates;
                     song_names = data.random_songs;
 
@@ -148,9 +143,10 @@
 
                 questionType = getRandomInt(0, 3);
                 document.getElementById("allInput").innerText = '';
-                updateQuestion()
 
                 index += 1;
+                updateQuestion();
+                changeImage();
 
                 if (index < 10) {
                     const audioElement = document.getElementById('audioPreview');
