@@ -7,37 +7,75 @@
 
 <style>
 
-    .styled-table {
-        border-collapse: collapse;
-        margin: 25px 0;
-        font-size: 0.9em;
-        font-family: sans-serif;
-        min-width: 400px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    /*table {*/
+    /*    border-collapse: separate;*/
+    /*    border-spacing: 0 10px;*/
+    /*    margin-top: -10px; !* correct offset on first border spacing if desired *!*/
+    /*}*/
+    /*td {*/
+    /*    !*box-shadow: 0px 0px 5px;*!*/
+    /*    !*border: solid 1px #000;*!*/
+    /*    border-style: solid none;*/
+    /*    padding: 10px;*/
+    /*    background-color: #282828;*/
+    /*}*/
+    /*td:first-child {*/
+    /*    border-left-style: solid;*/
+    /*    border-top-left-radius: 10px;*/
+    /*    border-bottom-left-radius: 10px;*/
+    /*    box-shadow: 0px 0px 5px;*/
+    /*}*/
+    /*td:last-child {*/
+    /*    border-right-style: solid;*/
+    /*    border-bottom-right-radius: 10px;*/
+    /*    border-top-right-radius: 10px;*/
+    /*    box-shadow: 0px 0px 5px ;*/
+    /*}*/
+
+    .tr-body {
+      box-shadow: 0px 4px 8px 0px #282828;
+      border-radius: 10px;
     }
 
-    .styled-table thead tr {
-        background-color: #009879;
-        color: #ffffff;
-        text-align: left;
-    }
 
-    .styled-table th,
-    .styled-table td {
-        padding: 12px 15px;
-    }
+    /*th, td {*/
+    /*  border-right: 1px solid black;*/
+    /*  border-radius: 10px;*/
+    /*}*/
 
-    .styled-table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
+    /*.styled-table {*/
+    /*    border-collapse: collapse;*/
+    /*    margin: 25px 0;*/
+    /*    font-size: 0.9em;*/
+    /*    font-family: sans-serif;*/
+    /*    min-width: 400px;*/
+    /*    border-right: 1px solid #dddddd;*/
+    /*}*/
 
-    .styled-table tbody tr:nth-of-type(even) {
-        background-color: #282828;
-    }
+    /*.styled-table thead tr {*/
+    /*    background-color: #009879;*/
+    /*    color: #ffffff;*/
+    /*    text-align: left;*/
+    /*}*/
 
-    .styled-table tbody tr:last-of-type {
-        border-bottom: 2px solid #009879;
-    }
+    /*.styled-table th,*/
+    /*.styled-table td {*/
+    /*    padding: 12px 15px;*/
+    /*}*/
+
+    /*.styled-table tbody tr {*/
+    /*    border-bottom: 1px solid #dddddd;*/
+
+    /*}*/
+
+    /*.styled-table tbody tr:nth-of-type(even) {*/
+    /*    background-color: #282828;*/
+    /*}*/
+
+    /*.styled-table tbody tr:last-of-type {*/
+    /*    border-bottom: 2px solid #009879;*/
+
+    /*}*/
 
     html {
         height: 97%;
@@ -255,12 +293,27 @@
 </div>
 
     <script>
-
+        document.getElementById("hide-show-container").style.display = 'none';
         document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById("hide-show-container").style.display = 'none';
             fillLeaderBoard();
+            fetch('/check_signed_in')
+                .then(response => response.json())
+                .then(data => {
+                    if(data.signedIn) {
+                        isSignedIn = true;
+                        document.getElementById("hide-show-container").style.display = '';
+
+                    } else {
+                        isSignedIn = false;
+                        document.getElementById("hide-show-container").style.display = 'none';
+                    }
+
+                    console.log('signed in: ' + data.signedIn);
+                });
         });
 
-        //document.getElementById("hide-show-container").style.display = 'none';
+
 
 
         function getRandomInt(min, max) {
@@ -287,7 +340,7 @@
 
 
         }
-
+        let isSignedIn = false;
         let song_previews;
         let song_artists;
         let song_images;
