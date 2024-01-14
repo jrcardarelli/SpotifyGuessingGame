@@ -48,10 +48,10 @@
 
 /* CSS */
 .button-74 {
-  background-color: #1ccc5b;
+  background-color: #121212;
   border: 4px solid #1ccc5b;
   border-radius: 30px;
-  color: #121212;
+  color: #1ccc5b;
   cursor: pointer;
   display: inline-block;
   font-weight: 600;
@@ -68,10 +68,10 @@
 }
 
 .button-75 {
-  background-color: #1ccc5b;
+  background-color: #121212;
   border: 4px solid #1ccc5b;
   border-radius: 30px;
-  color: #121212;
+  color: #1ccc5b;
   cursor: pointer;
   display: inline-block;
   font-weight: 600;
@@ -91,13 +91,13 @@
 }
 
 .button-74:hover {
-  background-color: #121212;
-      color: #1ccc5b;
+  background-color: #1ccc5b;
+      color: #121212;
 }
 
 .button-75:hover {
-  background-color: #121212;
-    color: #1ccc5b;
+  background-color: #1ccc5b;
+    color: #121212;
 }
 
 .button-74:active {
@@ -118,22 +118,21 @@
     input{
 
         padding: 7px;
-        border-radius: 6px;
+        border-radius: 30px;
         font-size: 16px;
         background: #2a2a2a;
         color: #dddddd;
-        border: 2px solid transparent;
         height: 36px;
-        box-shadow: 0 0 0 1px #dddddd, 0 2px 4px 0 rgb(0 0 0 / 7%), 0 1px 1.5px 0 rgb(0 0 0 / 5%);
+        border: 4px solid #1ccc5b;
         :focus{
-            border: 2px solid #dddddd;
-            border-radius: 4px;
+            outline: none;
         }
     }
 
     #box {
         background-color: #282828;
         border-radius: 30px;
+        width: 80rem;
     }
 
     #surrounding {
@@ -150,22 +149,23 @@
             <button class="button-75" role="button" type="button"><img src="http://thinkingstiff.com/images/matt.jpg" alt="">Sign in to Spotify to begin</button>
         </a>
     </div>
-    <div id="box">
-        <h1 id="title">Welcome to Game!</h1>
-        <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
-        <button class="button-74" role="button" onclick="startGame()">Start Game</button>
-        <h3 id="feedback"></h3>
-        <h3 id="question"></h3>
-        <audio id="audioPreview" hidden src=""></audio>
-        <div id="input-box">
-            <label for="allInput"></label>
-            <input id="allInput" type="text">
-            <button class="button-74" role="button" onclick="nextSong()">Submit</button>
+    <div id="surrounding2">
+        <div id="box">
+            <h2 id="timerDisplay">Time Elapsed: __</h2>
+            <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
+            <h3 id="feedback"></h3>
+            <h3 id="question"></h3>
+            <audio id="audioPreview" hidden src=""></audio>
+            <div id="input-box">
+                <label for="allInput"></label>
+                <input id="allInput" type="text">
+                <button class="button-74" role="button" onclick="nextSong()">Submit</button>
+            </div>
+            <button class="button-74" role="button" onclick="startGame()">Start Game</button>
+            <table class="styled-table" id="leader_board"></table>
         </div>
-        <table class="styled-table" id="leader_board"></table>
-        <h2 id="timerDisplay">Time Elapsed: __</h2>
     </div>
-    </div>
+</div>
 
     <script>
 
