@@ -2,80 +2,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Game</title>
+    <title style="font-family: Verdana, sans-serif;">Game</title>
 </head>
 
 <style>
 
-    /*table {*/
-    /*    border-collapse: separate;*/
-    /*    border-spacing: 0 10px;*/
-    /*    margin-top: -10px; !* correct offset on first border spacing if desired *!*/
-    /*}*/
-    /*td {*/
-    /*    !*box-shadow: 0px 0px 5px;*!*/
-    /*    !*border: solid 1px #000;*!*/
-    /*    border-style: solid none;*/
-    /*    padding: 10px;*/
-    /*    background-color: #282828;*/
-    /*}*/
-    /*td:first-child {*/
-    /*    border-left-style: solid;*/
-    /*    border-top-left-radius: 10px;*/
-    /*    border-bottom-left-radius: 10px;*/
-    /*    box-shadow: 0px 0px 5px;*/
-    /*}*/
-    /*td:last-child {*/
-    /*    border-right-style: solid;*/
-    /*    border-bottom-right-radius: 10px;*/
-    /*    border-top-right-radius: 10px;*/
-    /*    box-shadow: 0px 0px 5px ;*/
-    /*}*/
+   table {
+       margin-top: 1rem;
+       margin-right: 1rem;
+       margin-left: 1rem;
+      font-family: Verdana, sans-serif;
+       border-collapse: separate;
+  border-spacing: 15px 15px;
+      width: 90%;
+       color:white;
+       border-radius: 25px;
 
-    .tr-body {
-      box-shadow: 0px 4px 8px 0px #282828;
-      border-radius: 10px;
+    }
+
+   table {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    td {
+      border: solid 1px #000;
+      border-style: none solid solid none;
+      padding: 10px;
+    }
+
+    tr {
+        margin-top: 1rem;
     }
 
 
-    /*th, td {*/
-    /*  border-right: 1px solid black;*/
-    /*  border-radius: 10px;*/
-    /*}*/
+    tr td:first-child { border-top-left-radius: 10px; }
+    tr td:last-child { border-top-right-radius: 10px; }
 
-    /*.styled-table {*/
-    /*    border-collapse: collapse;*/
-    /*    margin: 25px 0;*/
-    /*    font-size: 0.9em;*/
-    /*    font-family: sans-serif;*/
-    /*    min-width: 400px;*/
-    /*    border-right: 1px solid #dddddd;*/
-    /*}*/
+    tr td:first-child { border-bottom-left-radius: 10px; }
+    tr td:last-child { border-bottom-right-radius: 10px; }
 
-    /*.styled-table thead tr {*/
-    /*    background-color: #009879;*/
-    /*    color: #ffffff;*/
-    /*    text-align: left;*/
-    /*}*/
+    tr:first-child td { border-top-style: solid; }
+    tr td:first-child { border-left-style: solid; }
 
-    /*.styled-table th,*/
-    /*.styled-table td {*/
-    /*    padding: 12px 15px;*/
-    /*}*/
 
-    /*.styled-table tbody tr {*/
-    /*    border-bottom: 1px solid #dddddd;*/
-
-    /*}*/
-
-    /*.styled-table tbody tr:nth-of-type(even) {*/
-    /*    background-color: #282828;*/
-    /*}*/
-
-    /*.styled-table tbody tr:last-of-type {*/
-    /*    border-bottom: 2px solid #009879;*/
-
-    /*}*/
 
     html {
         height: 97%;
@@ -227,27 +197,28 @@
 <div id="surrounding">
     <div id="nav">
         <a href='/test'>
-            <button class="button-75" role="button" type="button"><img src="http://thinkingstiff.com/images/matt.jpg" alt="">Sign in to Spotify to begin</button>
+            <button style="font-family: Verdana, sans-serif;" class="button-75" role="button" type="button"><img src="http://thinkingstiff.com/images/matt.jpg" alt="">Sign in to Spotify to begin</button>
         </a>
     </div>
     <div id="surrounding2">
         <div id="box">
             <div id="hide-show-container">
-            <h2 id="timerDisplay">Time Elapsed: __</h2>
+            <h2 id="timerDisplay" style="font-family: Verdana, sans-serif;">Time Elapsed: __</h2>
             <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
-            <h3 id="feedback"></h3>
-            <h3 id="question"></h3>
+            <h3 id="feedback" style="font-family: Verdana, sans-serif;"></h3>
+            <h3 id="question" style="font-family: Verdana, sans-serif;"></h3>
             <audio id="audioPreview" hidden src=""></audio>
             <div id="input-box">
                 <label for="allInput"></label>
                 <input id="allInput" type="text">
-                <button class="button-74" role="button" onclick="nextSong()">Submit</button>
+                <button class="button-74" role="button" onclick="nextSong()" style="font-family: Verdana, sans-serif;">Submit</button>
             </div>
-            <button class="button-74" role="button" onclick="startGame()">Start Game</button>
+            <button class="button-74" role="button" onclick="startGame()" style="font-family: Verdana, sans-serif;">Start Game</button>
 
             </div>
         </div>
         <div id="table-box">
+            <label style="font-family: Verdana, sans-serif; margin-top: 20px; font-size: 25px" >Leaderboard</label>
             <table class="styled-table" id="leader_board"></table>
         </div>
     </div>
