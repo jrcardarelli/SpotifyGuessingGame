@@ -10,8 +10,8 @@
         display: flex;
         flex-direction: column;
         align-items: center; /* Optional: Align items in the center horizontally */
-        padding-top: 10px;
-        padding-bottom: 10px;
+        justify-content: space-between;
+        margin: 10px;
     }
 
     #timeInput {
@@ -38,6 +38,8 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+
+    margin: 1rem;
 }
 
 .button-74:hover {
@@ -68,18 +70,13 @@
             <button class="button-74" role="button" type="button">Sign In</button>
         </a>
 
-
-        <button class="button-74" role="button" onclick="changeImage()">next</button>
         <button class="button-74" role="button" onclick="startGame()">Start Game</button>
-
-
         <h3 id="feedback"></h3>
         <h3 id="question"></h3>
         <audio id="audioPreview" hidden src=""></audio>
-        <button class="button-74" role="button" onclick="nextSong()">Next Song</button>
-        <button class="button-74" role="button" onclick="testScore()">add score</button>
+        <button class="button-74" role="button" onclick="nextSong()">Submit</button>
         <label for="allInput"></label>
-        <input id="allInput" type="text"></input>
+        <input id="allInput" type="text">
     </div>
 
     <script>
@@ -119,7 +116,6 @@
                     song_names = data.random_songs;
 
                     console.log(song_dates);
-                    console.log(song_previews);
                     console.log(song_artists);
                     console.log(song_names);
 
@@ -129,10 +125,6 @@
                     audioElement.play();
                 })
             updateQuestion();
-        }
-
-        function testScore() {
-            fetch('/new_score/3')
         }
 
         function updateQuestion() {
