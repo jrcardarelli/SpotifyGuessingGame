@@ -20,43 +20,59 @@
         align-items: center;
     }
 
-/* CSS */
-.button-74 {
-  background-color: #fbeee0;
-  border: 2px solid #422800;
-  border-radius: 30px;
-  box-shadow: #422800 4px 4px 0 0;
-  color: #422800;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: 600;
-  font-size: 18px;
-  padding: 0 18px;
-  line-height: 50px;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+    /* CSS */
+    .button-74 {
+      background-color: #fbeee0;
+      border: 2px solid #422800;
+      border-radius: 30px;
+      box-shadow: #422800 4px 4px 0 0;
+      color: #422800;
+      cursor: pointer;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 18px;
+      padding: 0 18px;
+      line-height: 50px;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
 
-    margin: 1rem;
-}
+        margin: 1rem;
+    }
 
-.button-74:hover {
-  background-color: #fff;
-}
+    .button-74:hover {
+      background-color: #fff;
+    }
 
-.button-74:active {
-  box-shadow: #422800 2px 2px 0 0;
-  transform: translate(2px, 2px);
-}
+    .button-74:active {
+      box-shadow: #422800 2px 2px 0 0;
+      transform: translate(2px, 2px);
+    }
 
-@media (min-width: 768px) {
-  .button-74 {
-    min-width: 120px;
-    padding: 0 25px;
-  }
-}
+    @media (min-width: 768px) {
+      .button-74 {
+        min-width: 120px;
+        padding: 0 25px;
+      }
+    }
+
+    input{
+
+        padding: 7px;
+        border-radius: 6px;
+        font-size: 16px;
+        background: #fbfbfb;
+        border: 2px solid transparent;
+        height: 36px;
+        box-shadow: 0 0 0 1px #dddddd, 0 2px 4px 0 rgb(0 0 0 / 7%), 0 1px 1.5px 0 rgb(0 0 0 / 5%);
+        :focus{
+            border: 2px solid #000;
+            border-radius: 4px;
+        }
+
+    }
 
 </style>
 
@@ -77,14 +93,37 @@
         <button class="button-74" role="button" onclick="nextSong()">Submit</button>
         <label for="allInput"></label>
         <input id="allInput" type="text">
+        <table id="leader_board"></table>
     </div>
 
     <script>
 
+        document.addEventListener('DOMContentLoaded', function () {
+            fillLeaderBoard();
+        });
         function getRandomInt(min, max) {
           min = Math.ceil(min);
           max = Math.floor(max);
           return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+        }
+
+        function fillLeaderBoard(){
+
+            fetch('/get_high_scores')
+                .then(response => response.json())
+                .then(items => {
+                    console.log(items);
+                    // const table = document.getElementById("leader_board");
+                    // items.forEach( item => {
+                    //   let row = table.insertRow();
+                    //   let date = row.insertCell(0);
+                    //   date.innerHTML = item.date;
+                    //   let name = row.insertCell(1);
+                    //   name.innerHTML = item.name;
+                    // });
+                });
+
+
         }
 
         let song_previews;

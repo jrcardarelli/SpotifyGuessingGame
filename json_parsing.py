@@ -64,3 +64,7 @@ def collect_recent_tracks(json_data):
 
 def get_user_id(json_data):
     return json_data.get('id')
+
+
+def get_user_display_name(json_data):
+    return json_data.get('display_name')

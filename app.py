@@ -48,6 +48,7 @@ db.init_app(app)
 class Score(db.Model):
     id = db.Column(db.String(64), primary_key=True)
     high_score = db.Column(db.Integer, unique=False, nullable=False)
+    display_name = db.Column(db.String(), nullable=False)
 
     def __repr__(self):
         return f"Id: {self.id}, Score: {self.high_score}"
@@ -100,7 +101,7 @@ def test():
     hashed = Authorization.hash_verifier(codeVerifier)
     codeChallenge = Authorization.base64encode(hashed)
 
-    scope = 'user-read-recently-played'
+    scope = 'user-read-recently-played user-read-private user-read-email'
     authUrl = 'https://accounts.spotify.com/authorize'
 
     localStorage = localStoragePy('spotify.game', 'json')
@@ -192,11 +193,13 @@ def new_score(score):
 
     response = requests.get(url, headers=headers)
     json_data_stuff = response.json()
+    display_name = json_parsing.get_user_display_name(json_data_stuff)
     row = Score.query.filter_by(id=json_parsing.get_user_id(json_data_stuff)).first()
     if not row:
         score_obj2 = Score(
             id=json_parsing.get_user_id(json_data_stuff),
-            high_score=score
+            high_score=score,
+            display_name=display_name
         )
         db.session.add(score_obj2)
         db.session.commit()
@@ -227,6 +230,11 @@ def get_high_score():
     else:
         return {"high_score": row.high_score}
 
+@app.route('/get_high_scores')
+def get_high_scores():
+    scores = db.session.execute(db.select(Score.display_name).order_by(Score.high_score)).all()
+    print(scores[0])
+    return "200"
 
 if __name__ == '__main__':
     app.run()
