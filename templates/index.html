@@ -11,6 +11,17 @@
         color: #fff;
     }
 
+    #nav {
+        display: flex;
+        flex-direction: row;
+        height: 5rem;
+        background-color: #282828;
+        overflow: hidden;
+        width: 100%;
+        justify-content: right;
+        border-radius: 30px;
+    }
+
     div {
         display: flex;
         flex-direction: column;
@@ -63,7 +74,6 @@
   -webkit-user-select: none;
   touch-action: manipulation;
     margin: 1rem;
-    position:absolute; top:0; right:0;
 }
 
 .title{
@@ -109,25 +119,30 @@
             border: 2px solid #dddddd;
             border-radius: 4px;
         }
-
     }
 
     #box {
         background-color: #282828;
-        border-radius: 10px;
-        border: 4px solid #1ccc5b;
+        border-radius: 30px;
+    }
+
+    #surrounding {
+        display: flex;
+        flex-direction: column;
     }
 
 </style>
 
 <body>
-
-    <div id="box">
-        <h1 id="title">Welcome to Game!</h1>
-        <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
+<div id="surrounding">
+    <div id="nav">
         <a href='/test'>
             <button class="button-75" role="button" type="button"><img src="http://thinkingstiff.com/images/matt.jpg" alt="">Sign in to Spotify to begin</button>
         </a>
+    </div>
+    <div id="box">
+        <h1 id="title">Welcome to Game!</h1>
+        <img id="gameImage" src="https://www.w3schools.com/images/colorpicker2000.png" alt="Cover Art"></img>
         <button class="button-74" role="button" onclick="startGame()">Start Game</button>
         <h3 id="feedback"></h3>
         <h3 id="question"></h3>
@@ -139,6 +154,7 @@
         </div>
         <table id="leader_board"></table>
         <h2 id="timerDisplay">Time Elapsed: __</h2>
+    </div>
     </div>
 
     <script>
